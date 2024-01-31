@@ -1,3 +1,3 @@
 package kr.co.lion.homework1_memo
 
-data class Memo()
+// data class Memo()
