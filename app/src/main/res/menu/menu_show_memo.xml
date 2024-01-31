@@ -2,8 +2,8 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_item_add_show_memo"
+        android:id="@+id/menu_item_complete_show_memo"
         android:icon="@drawable/done_24px"
-        android:title="Item"
+        android:title="완료"
         app:showAsAction="always" />
 </menu>
