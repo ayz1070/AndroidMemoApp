@@ -24,7 +24,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:endIconMode="clear_text">
+            app:endIconMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextTitleShowMemo"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:endIconMode="clear_text">
+            app:endIconMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextDateShowMemo"
@@ -53,7 +53,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="100dp"
-            app:endIconMode="clear_text">
+            app:endIconMode="none">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextContentShowMemo"
