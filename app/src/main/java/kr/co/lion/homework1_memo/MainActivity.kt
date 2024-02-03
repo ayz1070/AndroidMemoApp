@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     // 런처
     lateinit var makeMemoLauncher:ActivityResultLauncher<Intent>
+    lateinit var showMemoLauncher: ActivityResultLauncher<Intent>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         memoList = mutableListOf()
         recyclerViewAdapterMain = RecyclerViewAdapterMain()
 
+        // MakeMemoActivity에 대한 계약
         val contractMakeMemo = ActivityResultContracts.StartActivityForResult()
         makeMemoLauncher = registerForActivityResult(contractMakeMemo){
             // 작업 결과가 OK라면
@@ -56,9 +58,17 @@ class MainActivity : AppCompatActivity() {
                     }
                     binding.recycerViewMain.adapter?.notifyDataSetChanged()
                 }
-
             }
         }
+
+        // ShowMemoActivity에 대한 계약
+        val contractShowMemo = ActivityResultContracts.StartActivityForResult()
+        showMemoLauncher = registerForActivityResult(contractShowMemo){
+
+
+        }
+
+
 
 
         // 테스트 데이터
@@ -86,11 +96,7 @@ class MainActivity : AppCompatActivity() {
     //-------------------------------------------------------------------------
 
 
-    fun getCurrentDate():String{
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = Date()
-        return dateFormat.format(currentDate)
-    }
+
     fun setToolbar(){
         binding.apply{
             toolBarMain.apply{
@@ -117,6 +123,18 @@ class MainActivity : AppCompatActivity() {
             init{
                 this.rowMainBinding = rowMainBinding
 
+                this.rowMainBinding.root.layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+
+                this.rowMainBinding.root.setOnClickListener {
+                    val newIntent = Intent(this@MainActivity,ShowMemoActivity::class.java)
+                    newIntent.putExtra("memoData",memoList[adapterPosition])
+
+                    showMemoLauncher.launch(newIntent)
+
+                }
             }
         }
 
