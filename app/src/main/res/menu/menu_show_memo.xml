@@ -2,8 +2,15 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_item_complete_show_memo"
-        android:icon="@drawable/done_24px"
-        android:title="완료"
+        android:id="@+id/menu_item_modify_show_memo"
+        android:icon="@drawable/edit_24px"
+        android:title="수정"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_item_delete_show_memo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/delete_24px"
+        android:title="삭제"
         app:showAsAction="always" />
 </menu>
