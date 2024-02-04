@@ -12,9 +12,11 @@ import kr.co.lion.homework1_memo.databinding.ActivityShowMemoBinding
 class ShowMemoActivity : AppCompatActivity() {
     lateinit var binding:ActivityShowMemoBinding
     lateinit var modifyMemoLauncher:ActivityResultLauncher<Intent>
+    var isDeleted = false
 
     var memoData: Memo? = null
     var modifiedMemo: Memo? =null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,13 +40,20 @@ class ShowMemoActivity : AppCompatActivity() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_item_modify_show_memo -> {
+                            isDeleted =false
                             val newIntent = Intent(this@ShowMemoActivity,ModifyMemoActivity::class.java)
                             newIntent.putExtra("memoData",memoData)
                             modifyMemoLauncher.launch(newIntent)
                         }
 
                         R.id.menu_item_delete_show_memo -> {
+                            isDeleted = true
+                            val resultIntent = Intent(this@ShowMemoActivity,MainActivity::class.java)
+                            resultIntent.putExtra("deletedMemoData",memoData)
+                            resultIntent.putExtra("isDeleted",isDeleted)
 
+                            setResult(RESULT_OK,resultIntent)
+                            finish()
                         }
                     }
                     true

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -57,6 +58,8 @@ class MainActivity : AppCompatActivity() {
                         memoList.add(memoData!!)
                     }
                     binding.recycerViewMain.adapter?.notifyDataSetChanged()
+                }else{
+                    binding.recycerViewMain.adapter?.notifyDataSetChanged()
                 }
             }
         }
@@ -64,8 +67,23 @@ class MainActivity : AppCompatActivity() {
         // ShowMemoActivity에 대한 계약
         val contractShowMemo = ActivityResultContracts.StartActivityForResult()
         showMemoLauncher = registerForActivityResult(contractShowMemo){
-
-
+            Log.d("내부","런처 내부")
+            if(it.resultCode == RESULT_OK){
+                Log.d("내부","resultCode 내부")
+                if(it.data!=null){
+                    Log.d("내부","data null 내부")
+                    if(Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU){
+                        val deletedMemoData = it.data?.getParcelableExtra("deletedMemoData",Memo::class.java)
+                        memoList.remove(deletedMemoData)
+                        binding.recycerViewMain.adapter?.notifyDataSetChanged()
+                    }else{
+                        val deletedMemoData = it.data?.getParcelableExtra<Memo>("deletedMemoData")
+                        Log.d("삭제된 메모2","${deletedMemoData}")
+                        memoList.remove(deletedMemoData!!)
+                        binding.recycerViewMain.adapter?.notifyDataSetChanged()
+                    }
+                }
+            }
         }
 
 
