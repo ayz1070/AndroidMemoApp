@@ -76,10 +76,8 @@ class MakeMemoActivity : AppCompatActivity() {
 
             memoData = Memo(memoTitle,memoContent,getCurrentDate())
 
-            val resultIntent = Intent()
-            resultIntent.putExtra("memoData",memoData)
+            Util.memoList.add(memoData)
 
-            setResult(RESULT_OK,resultIntent)
             finish()
         }
     }

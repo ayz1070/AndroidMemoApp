@@ -19,8 +19,8 @@ import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding:ActivityMainBinding
-    lateinit var memoList:MutableList<Memo>
     lateinit var recyclerViewAdapterMain:RecyclerViewAdapterMain
+    var modifiedMemo:Memo? = null
 
     // 런처
     lateinit var makeMemoLauncher:ActivityResultLauncher<Intent>
@@ -39,47 +39,28 @@ class MainActivity : AppCompatActivity() {
     }
     //-------------------------------------------------------------------------
     fun initData(){
-        memoList = mutableListOf()
         recyclerViewAdapterMain = RecyclerViewAdapterMain()
 
         // MakeMemoActivity에 대한 계약
         val contractMakeMemo = ActivityResultContracts.StartActivityForResult()
         makeMemoLauncher = registerForActivityResult(contractMakeMemo){
-            // 작업 결과가 OK라면
-            if(it.resultCode== RESULT_OK){
-                // 전달된 Intent 객체가 있다면
-                if(it.data != null){
-                    // 학생 객체를 추출한다.
-                    if(Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU){
-                        val memoData = it.data?.getParcelableExtra("memoData",Memo::class.java)
-                        memoList.add(memoData!!)
-                    }else{
-                        val memoData = it.data?.getParcelableExtra<Memo>("memoData")
-                        memoList.add(memoData!!)
-                    }
-                    binding.recycerViewMain.adapter?.notifyDataSetChanged()
-                }else{
-                    binding.recycerViewMain.adapter?.notifyDataSetChanged()
-                }
-            }
+            binding.recycerViewMain.adapter?.notifyDataSetChanged()
         }
 
         // ShowMemoActivity에 대한 계약
         val contractShowMemo = ActivityResultContracts.StartActivityForResult()
         showMemoLauncher = registerForActivityResult(contractShowMemo){
-            Log.d("내부","런처 내부")
             if(it.resultCode == RESULT_OK){
-                Log.d("내부","resultCode 내부")
                 if(it.data!=null){
-                    Log.d("내부","data null 내부")
                     if(Build.VERSION.SDK_INT == Build.VERSION_CODES.TIRAMISU){
                         val deletedMemoData = it.data?.getParcelableExtra("deletedMemoData",Memo::class.java)
-                        memoList.remove(deletedMemoData)
+                        modifiedMemo = it.data?.getParcelableExtra("modifiedMemoData",Memo::class.java)
+                        //memoList.remove(deletedMemoData)
                         binding.recycerViewMain.adapter?.notifyDataSetChanged()
                     }else{
                         val deletedMemoData = it.data?.getParcelableExtra<Memo>("deletedMemoData")
-                        Log.d("삭제된 메모2","${deletedMemoData}")
-                        memoList.remove(deletedMemoData!!)
+                        modifiedMemo = it.data?.getParcelableExtra<Memo>("modifiedMemoData")
+                        //memoList.remove(deletedMemoData!!)
                         binding.recycerViewMain.adapter?.notifyDataSetChanged()
                     }
                 }
@@ -135,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    inner class RecyclerViewAdapterMain(): RecyclerView.Adapter<RecyclerViewAdapterMain.ViewHolderMain>() {
+    inner class RecyclerViewAdapterMain: RecyclerView.Adapter<RecyclerViewAdapterMain.ViewHolderMain>() {
         inner class ViewHolderMain(rowMainBinding: RowMainBinding) : RecyclerView.ViewHolder(rowMainBinding.root) {
             val rowMainBinding:RowMainBinding
             init{
@@ -148,10 +129,8 @@ class MainActivity : AppCompatActivity() {
 
                 this.rowMainBinding.root.setOnClickListener {
                     val newIntent = Intent(this@MainActivity,ShowMemoActivity::class.java)
-                    newIntent.putExtra("memoData",memoList[adapterPosition])
-
+                    newIntent.putExtra("position",adapterPosition)
                     showMemoLauncher.launch(newIntent)
-
                 }
             }
         }
@@ -162,11 +141,11 @@ class MainActivity : AppCompatActivity() {
             return viewHolderMain
         }
 
-        override fun getItemCount(): Int = memoList.size
+        override fun getItemCount(): Int = Util.memoList.size
 
         override fun onBindViewHolder(holder: ViewHolderMain, position: Int) {
-            holder.rowMainBinding.textViewTitleRowMain.text = memoList[position].title
-            holder.rowMainBinding.textViewDateRowMain.text = memoList[position].date
+            holder.rowMainBinding.textViewTitleRowMain.text = Util.memoList[position].title
+            holder.rowMainBinding.textViewDateRowMain.text = Util.memoList[position].date
         }
     }
 }

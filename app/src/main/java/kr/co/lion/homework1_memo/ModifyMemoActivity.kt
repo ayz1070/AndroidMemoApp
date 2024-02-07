@@ -14,8 +14,9 @@ class ModifyMemoActivity : AppCompatActivity() {
     lateinit var binding:ActivityModifyMemoBinding
     lateinit var memoTitle:String
     lateinit var memoContent:String
+    lateinit var memoData:Memo
+    var position:Int = 0
 
-    var memoData:Memo? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityModifyMemoBinding.inflate(layoutInflater)
@@ -41,19 +42,16 @@ class ModifyMemoActivity : AppCompatActivity() {
     }
 
     fun initData(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
-            memoData = intent?.getParcelableExtra("memoData",Memo::class.java)
-        }else{
-            memoData = intent?.getParcelableExtra<Memo>("memoData")
-        }
 
+        position = intent?.getIntExtra("position",0)!!
+        memoData = Util.memoList[position]
     }
 
     fun initView(){
         setToolbar()
         binding.apply{
-            editTextTitleModifyMemo.setText(memoData?.title)
-            editTextContentModifyMemo.setText(memoData?.content)
+            editTextTitleModifyMemo.setText(memoData.title)
+            editTextContentModifyMemo.setText(memoData.content)
         }
     }
 
@@ -87,9 +85,9 @@ class ModifyMemoActivity : AppCompatActivity() {
                 return
             }
 
-            val modifiedMemoData = Memo(memoTitle, memoContent,getCurrentDate())
+            Util.memoList[position] = Memo(memoTitle, memoContent,getCurrentDate())
+
             val resultIntent = Intent()
-            resultIntent.putExtra("modifiedMemo",modifiedMemoData)
 
             setResult(RESULT_OK, resultIntent)
             finish()
