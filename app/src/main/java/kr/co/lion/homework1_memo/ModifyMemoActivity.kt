@@ -85,7 +85,7 @@ class ModifyMemoActivity : AppCompatActivity() {
                 return
             }
 
-            Util.memoList[position] = Memo(memoTitle, memoContent,getCurrentDate())
+            Util.memoList[position] = Memo(memoTitle, memoContent,Util.getCurrentDate())
 
             val resultIntent = Intent()
 
@@ -93,10 +93,5 @@ class ModifyMemoActivity : AppCompatActivity() {
             finish()
         }
 
-    }
-    fun getCurrentDate():String{
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val currentDate = Date()
-        return dateFormat.format(currentDate)
     }
 }
