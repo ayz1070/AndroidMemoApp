@@ -70,7 +70,7 @@ class ShowMemoActivity : AppCompatActivity() {
         modifyMemoLauncher = registerForActivityResult(contractModifyMemo){
             binding.editTextTitleShowMemo.setText(Util.memoList[position].title)
             binding.editTextContentShowMemo.setText(Util.memoList[position].content)
-            binding.editTextDateShowMemo.setText("${Util.memoList[position].date} (수정됨)")
+            binding.editTextDateShowMemo.setText("${Util.memoList[position].date}")
         }
 
     }

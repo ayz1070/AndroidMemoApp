@@ -65,11 +65,13 @@ class MakeMemoActivity : AppCompatActivity() {
             // 예외 처리 필요
             memoTitle = editTextTitle.text.toString()
             if(memoTitle.isEmpty()){
+                Util.hideSoftInput(this@MakeMemoActivity)
                 Snackbar.make(binding.root,"빈 칸이 존재합니다!!",Snackbar.LENGTH_SHORT).show()
                 return
             }
             memoContent = editTextContent.text.toString()
             if(memoContent.isEmpty()){
+                Util.hideSoftInput(this@MakeMemoActivity)
                 Snackbar.make(binding.root,"빈 칸이 존재합니다!!",Snackbar.LENGTH_SHORT).show()
                 return
             }

@@ -85,7 +85,7 @@ class ModifyMemoActivity : AppCompatActivity() {
                 return
             }
 
-            Util.memoList[position] = Memo(memoTitle, memoContent,Util.getCurrentDate())
+            Util.memoList[position] = Memo(memoTitle, memoContent,Util.memoList[position].date)
 
             val resultIntent = Intent()
 
